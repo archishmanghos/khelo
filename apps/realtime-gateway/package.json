@@ -1,0 +1,38 @@
+{
+  "name": "@khelo/realtime-gateway",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Centralized Socket.io WebSocket gateway for real-time updates",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "eslint src/ --ext .ts",
+    "lint:fix": "eslint src/ --ext .ts --fix",
+    "test": "echo 'No tests yet'",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@khelo/types": "*",
+    "@khelo/logger": "*",
+    "@khelo/utils": "*",
+    "@khelo/event-bus": "*",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "@khelo/config": "*",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.12.0",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

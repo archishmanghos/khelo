@@ -1,0 +1,176 @@
+# Khelo — Production Infrastructure
+# Usage: docker compose -f infrastructure/docker/docker-compose.prod.yml up -d
+
+services:
+  # ─── PostgreSQL ─────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: khelo-postgres-prod
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-khelo}
+      POSTGRES_USER: ${DB_USER:-khelo}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+    volumes:
+      - khelo_pgdata_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U khelo -d khelo"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+
+  # ─── Redis ──────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: khelo-redis-prod
+    restart: always
+    volumes:
+      - khelo_redis_prod:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+  # ─── Nginx API Gateway ─────────────────────────────────────────────────────
+  api-gateway:
+    build:
+      context: ../../apps/api-gateway
+      dockerfile: Dockerfile
+    container_name: khelo-api-gateway-prod
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: "0.5"
+
+  # ─── Match Service ─────────────────────────────────────────────────────────
+  match-service:
+    build:
+      context: ../..
+      dockerfile: apps/match-service/Dockerfile
+    container_name: khelo-match-service-prod
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-khelo}
+      DB_USER: ${DB_USER:-khelo}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+  # ─── Scoring Service ───────────────────────────────────────────────────────
+  scoring-service:
+    build:
+      context: ../..
+      dockerfile: apps/scoring-service/Dockerfile
+    container_name: khelo-scoring-service-prod
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-khelo}
+      DB_USER: ${DB_USER:-khelo}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+  # ─── Stats Service ────────────────────────────────────────────────────────
+  stats-service:
+    build:
+      context: ../..
+      dockerfile: apps/stats-service/Dockerfile
+    container_name: khelo-stats-service-prod
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 3003
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-khelo}
+      DB_USER: ${DB_USER:-khelo}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+  # ─── Realtime Gateway ──────────────────────────────────────────────────────
+  realtime-gateway:
+    build:
+      context: ../..
+      dockerfile: apps/realtime-gateway/Dockerfile
+    container_name: khelo-realtime-gateway-prod
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 3004
+      CORS_ORIGIN: ${CORS_ORIGIN:-*}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+volumes:
+  khelo_pgdata_prod:
+    driver: local
+  khelo_redis_prod:
+    driver: local

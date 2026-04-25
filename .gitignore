@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.npm
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Turbo
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+
+# Docker
+docker-compose.override.yml
+
+# Angular
+.angular/
+apps/web/.angular/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Misc
+tmp/
+temp/

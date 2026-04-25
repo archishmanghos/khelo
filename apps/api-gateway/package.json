@@ -1,0 +1,12 @@
+{
+  "name": "@khelo/api-gateway",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nginx reverse proxy API gateway — routes to backend services",
+  "scripts": {
+    "dev": "echo 'API Gateway (Nginx) is managed via Docker. See docker-compose.dev.yml'",
+    "build": "echo 'No build step — Nginx config only'",
+    "lint": "echo 'No lint — Nginx config'",
+    "clean": "echo 'Nothing to clean'"
+  }
+}
