@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum AuthProvider {
+  local
+  google
+}
+
+model User {
+  id              String       @id @default(uuid())
+  email           String?      @unique
+  passwordHash    String?      @map("password_hash")
+  name            String
+  avatarUrl       String?      @map("avatar_url")
+  provider        AuthProvider @default(local)
+  providerId      String?      @unique @map("provider_id")
+  isEmailVerified Boolean      @default(false) @map("is_email_verified")
+  role            Role         @default(user)
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+  lastLoginAt     DateTime?    @map("last_login_at")
+  deletedAt       DateTime?    @map("deleted_at")
+
+  refreshTokens RefreshToken[]
+
+  @@unique([provider, providerId])
+  @@map("users")
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  token      String   @unique // Hashed token
+  expiresAt  DateTime @map("expires_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+  revoked    Boolean  @default(false)
+  deviceInfo String?  @map("device_info")
+  ipAddress  String?  @map("ip_address")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
