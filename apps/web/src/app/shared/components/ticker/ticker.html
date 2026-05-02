@@ -1,0 +1,17 @@
+<div class="ticker">
+  <div class="ticker-content">
+    @for (item of items; track $index) {
+      <div class="ticker-item">
+        <span class="live-indicator"></span>
+        <span class="text">{{ item }}</span>
+      </div>
+    }
+    <!-- Duplicate for infinite scroll -->
+    @for (item of items; track $index + '-dup') {
+      <div class="ticker-item">
+        <span class="live-indicator"></span>
+        <span class="text">{{ item }}</span>
+      </div>
+    }
+  </div>
+</div>

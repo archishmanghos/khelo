@@ -1,12 +1,14 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+import { ToastsComponent } from './shared/components/toasts/toasts';
+
 @Component({
-  selector: 'khelo-root',
-  imports: [RouterOutlet],
+  selector: 'app-root',
+  imports: [RouterOutlet, ToastsComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('web');
+  protected readonly title = signal('Strike Cricket Scoring');
 }

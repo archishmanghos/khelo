@@ -1,0 +1,23 @@
+<header class="header">
+  <div class="container">
+    <div class="logo">
+      <span class="logo-text">Khelo</span>
+    </div>
+
+    <nav class="nav">
+      <a href="#" class="nav-link">Matches</a>
+      <a href="#" class="nav-link">Tournaments</a>
+      <a href="#" class="nav-link">Stats</a>
+    </nav>
+
+    <div class="actions">
+      <button (click)="toggleTheme()" class="icon-btn" [title]="'Toggle Theme'">
+        <span class="material-icons">
+          {{ themeService.theme() === 'light' ? 'dark_mode' : 'light_mode' }}
+        </span>
+      </button>
+      <button class="btn btn-secondary">Login</button>
+      <button class="btn btn-primary">Get Started</button>
+    </div>
+  </div>
+</header>

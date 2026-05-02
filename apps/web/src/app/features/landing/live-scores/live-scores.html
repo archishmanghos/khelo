@@ -1,0 +1,30 @@
+<section class="live-scores">
+  <div class="container">
+    <div class="header">
+      <h2 class="title">Current Live Matches</h2>
+      <button class="view-all">View All Matches</button>
+    </div>
+
+    <div class="scroll-container">
+      @for (match of matches; track match.id) {
+        <div class="match-card">
+          <div class="match-meta">
+            <span class="status" [class.live]="match.status === 'LIVE'">{{ match.status }}</span>
+            <span class="venue">{{ match.venue }}</span>
+          </div>
+          <div class="teams">
+            <div class="team">
+              <span class="team-name">{{ match.team1.name }}</span>
+              <span class="score">{{ match.team1.score }}</span>
+            </div>
+            <div class="team">
+              <span class="team-name">{{ match.team2.name }}</span>
+              <span class="score">{{ match.team2.score }}</span>
+            </div>
+          </div>
+          <div class="summary">{{ match.summary }}</div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

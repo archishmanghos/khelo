@@ -1,0 +1,112 @@
+.footer {
+  background: var(--color-surface-container-highest);
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--color-outline-variant);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--spacing-2xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.logo-text {
+  font-family: var(--font-family-headline);
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--color-primary);
+  letter-spacing: -1px;
+}
+
+.logo-sub {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-on-surface-variant);
+  letter-spacing: 2px;
+}
+
+.brand-desc {
+  color: var(--color-on-surface-variant);
+  font-size: 15px;
+  max-width: 320px;
+  line-height: 1.6;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.link-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--color-on-surface);
+}
+
+.footer-links a {
+  color: var(--color-on-surface-variant);
+  font-size: 14px;
+  transition: color var(--transition-fast);
+}
+
+.footer-links a:hover {
+  color: var(--color-primary);
+}
+
+.footer-bottom {
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--color-outline-variant);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-on-surface-variant);
+  font-size: 14px;
+}
+
+.socials {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.social-icon {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  transition: color var(--transition-fast);
+}
+
+.social-icon:hover {
+  color: var(--color-primary);
+}
+
+@media (max-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+}

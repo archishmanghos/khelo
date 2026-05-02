@@ -1,0 +1,92 @@
+:root {
+  /* Brand Colors - Stadium Pulse */
+  --color-primary: #006e25;
+  --color-primary-container: #28a745;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #00330d;
+
+  --color-secondary: #4c56af;
+  --color-secondary-container: #959efd;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #27308a;
+
+  --color-tertiary: #ab2d57;
+  --color-tertiary-container: #ee6189;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #5b0025;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+
+  /* Surfaces - Light Mode */
+  --color-background: #f4fcef;
+  --color-on-background: #171d16;
+  --color-surface: #f4fcef;
+  --color-on-surface: #171d16;
+  --color-surface-variant: #dde5d9;
+  --color-on-surface-variant: #3e4a3c;
+  --color-outline: #6e7b6b;
+  --color-outline-variant: #bdcab9;
+
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eff6e9;
+  --color-surface-container: #e9f0e4;
+  --color-surface-container-high: #e3eade;
+  --color-surface-container-highest: #dde5d9;
+
+  /* Typography */
+  --font-family-headline: 'Plus Jakarta Sans', sans-serif;
+  --font-family-body: 'Inter', sans-serif;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+}
+
+[data-theme='dark'] {
+  /* Brand Colors - Stadium Pulse Dark */
+  --color-primary: #66df75;
+  --color-primary-container: #00531a;
+  --color-on-primary: #00390f;
+  --color-on-primary-container: #83fc8e;
+
+  --color-secondary: #bdc2ff;
+  --color-secondary-container: #343d96;
+  --color-on-secondary: #1a257e;
+  --color-on-secondary-container: #e0e0ff;
+
+  --color-tertiary: #ffb1c1;
+  --color-tertiary-container: #8b1140;
+  --color-on-tertiary: #650033;
+  --color-on-tertiary-container: #ffd9df;
+
+  /* Surfaces - Dark Mode */
+  --color-background: #0f150e;
+  --color-on-background: #dde5d9;
+  --color-surface: #0f150e;
+  --color-on-surface: #dde5d9;
+  --color-surface-variant: #3e4a3c;
+  --color-on-surface-variant: #bdcab9;
+  --color-outline: #889482;
+  --color-outline-variant: #3e4a3c;
+
+  --color-surface-container-lowest: #0a0f0a;
+  --color-surface-container-low: #171d16;
+  --color-surface-container: #1b211a;
+  --color-surface-container-high: #262c25;
+  --color-surface-container-highest: #31372f;
+}

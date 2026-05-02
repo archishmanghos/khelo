@@ -1,0 +1,65 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="logo">
+      <span class="logo-text">STRIKE</span>
+      <span class="logo-sub">CRICKET</span>
+    </div>
+    
+    <h1 class="title">Welcome Back</h1>
+    <p class="subtitle">Enter your credentials to access your dashboard</p>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="form">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          [(ngModel)]="email" 
+          required 
+          placeholder="name@example.com"
+          class="input"
+        >
+      </div>
+
+      <div class="form-group">
+        <div class="label-row">
+          <label for="password">Password</label>
+          <a href="#" class="forgot-link">Forgot?</a>
+        </div>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          [(ngModel)]="password" 
+          required 
+          placeholder="••••••••"
+          class="input"
+        >
+      </div>
+
+      @if (error()) {
+        <div class="error-box">
+          {{ error() }}
+        </div>
+      }
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="loading() || !loginForm.valid">
+        {{ loading() ? 'Signing in...' : 'Sign In' }}
+      </button>
+    </form>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <button (click)="loginWithGoogle()" class="btn btn-outline btn-block">
+      <img src="https://www.google.com/favicon.ico" alt="Google" width="16" height="16">
+      Continue with Google
+    </button>
+
+    <p class="footer-text">
+      Don't have an account? <a routerLink="/auth/signup">Sign Up</a>
+    </p>
+  </div>
+</div>
