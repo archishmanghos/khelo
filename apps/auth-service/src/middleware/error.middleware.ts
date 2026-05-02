@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { ZodError } from 'zod';
 import { AppError } from '../utils/errors';
 import { createLogger } from '@khelo/logger';
 
@@ -19,11 +20,16 @@ export const errorMiddleware = (
   }
 
   // Zod validation error
-  if (err.name === 'ZodError') {
+  if (err instanceof ZodError) {
+    const formattedErrors = err.issues.map((e) => ({
+      path: e.path.join('.'),
+      message: e.message,
+    }));
+
     return res.status(400).json({
       status: 'error',
       message: 'Validation failed',
-      errors: err.errors,
+      errors: formattedErrors,
     });
   }
 
