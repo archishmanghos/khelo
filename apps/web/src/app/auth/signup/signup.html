@@ -1,62 +1,79 @@
-<div class="auth-page">
+<div class="auth-container">
   <div class="auth-card">
-    <div class="logo">
-      <span class="logo-text">STRIKE</span>
-      <span class="logo-sub">CRICKET</span>
+    <div class="auth-header">
+      <div class="logo-box">
+        <span class="logo-icon">🏏</span>
+        <span class="logo-text">KHELO</span>
+      </div>
+      <h1>Create Account</h1>
+      <p>Join the future of real-time cricket scoring</p>
     </div>
-    
-    <h1 class="title">Create Account</h1>
-    <p class="subtitle">Join the elite cricket scoring community</p>
 
-    <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="form">
+    <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="auth-form">
       <div class="form-group">
         <label for="name">Full Name</label>
-        <input 
-          type="text" 
-          id="name" 
-          name="name" 
-          [(ngModel)]="name" 
-          required 
-          placeholder="John Doe"
-          class="input"
-        >
+        <div class="input-wrapper">
+          <span class="material-icons">person_outline</span>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            [(ngModel)]="name" 
+            placeholder="John Doe"
+            required
+            #nameInput="ngModel"
+          />
+        </div>
       </div>
 
       <div class="form-group">
-        <label for="email">Email Address</label>
-        <input 
-          type="email" 
-          id="email" 
-          name="email" 
-          [(ngModel)]="email" 
-          required 
-          placeholder="name@example.com"
-          class="input"
-        >
+        <label for="email">Email</label>
+        <div class="input-wrapper">
+          <span class="material-icons">mail_outline</span>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="email" 
+            placeholder="name@example.com"
+            required
+            #emailInput="ngModel"
+          />
+        </div>
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          [(ngModel)]="password" 
-          required 
-          placeholder="Minimum 8 characters"
-          class="input"
-          minlength="8"
-        >
+        <div class="input-wrapper">
+          <span class="material-icons">lock_outline</span>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            [(ngModel)]="password" 
+            placeholder="••••••••"
+            required
+            minlength="8"
+            #passInput="ngModel"
+          />
+        </div>
+        <p class="help-text">At least 8 characters</p>
       </div>
 
       @if (error()) {
-        <div class="error-box">
-          {{ error() }}
+        <div class="error-alert">
+          <span class="material-icons">error_outline</span>
+          <p>{{ error() }}</p>
         </div>
       }
 
       <button type="submit" class="btn btn-primary btn-block" [disabled]="loading() || !signupForm.valid">
-        {{ loading() ? 'Creating account...' : 'Create Account' }}
+        @if (loading()) {
+          <span class="spinner"></span>
+          Creating account...
+        } @else {
+          Create Account
+        }
       </button>
     </form>
 
@@ -64,13 +81,21 @@
       <span>OR</span>
     </div>
 
-    <button (click)="loginWithGoogle()" class="btn btn-outline btn-block">
-      <img src="https://www.google.com/favicon.ico" alt="Google" width="16" height="16">
-      Sign up with Google
-    </button>
+    <div id="google-signup-btn" class="google-btn-container"></div>
 
-    <p class="footer-text">
-      Already have an account? <a routerLink="/auth/login">Sign In</a>
-    </p>
+    <div class="auth-footer">
+      Already have an account? <a routerLink="/auth/login">Sign in</a>
+    </div>
+  </div>
+
+  <div class="auth-visual">
+    <div class="visual-content">
+      <h2>Join the Elite</h2>
+      <p>Start scoring matches, tracking players, and building your cricket community today.</p>
+      <div class="stats-badge">
+        <span class="material-icons">groups</span>
+        <span>5k+ Clubs Joined</span>
+      </div>
+    </div>
   </div>
 </div>

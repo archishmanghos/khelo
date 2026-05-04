@@ -65,11 +65,27 @@ export class AuthService {
       }
 
       let user = await this.userRepository.findByProvider(AuthProvider.google, payload.sub);
+      
+      if (!user && payload.email) {
+        // If not found by provider, check by email
+        user = await this.userRepository.findByEmail(payload.email);
+        
+        if (user) {
+          // Link Google provider to existing local account
+          user = await this.userRepository.update(user.id, {
+            provider: AuthProvider.google,
+            providerId: payload.sub,
+            avatarUrl: user.avatarUrl || payload.picture,
+            isEmailVerified: user.isEmailVerified || payload.email_verified || false,
+            lastLoginAt: new Date()
+          });
+        }
+      }
 
       if (!user) {
-        // Create user if doesn't exist
+        // Create user if doesn't exist by provider or email
         user = await this.userRepository.create({
-          email: payload.email,
+          email: payload.email!,
           name: payload.name || 'Google User',
           avatarUrl: payload.picture,
           provider: AuthProvider.google,
