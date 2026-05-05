@@ -1,12 +1,18 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+import { ToastsComponent } from './shared/components/toasts/toasts';
+import { LoaderComponent } from './widgets/loader/loader';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
-  selector: 'khelo-root',
-  imports: [RouterOutlet],
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, ToastsComponent, LoaderComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('web');
+  authService = inject(AuthService);
 }

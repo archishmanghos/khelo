@@ -1,0 +1,86 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="logo-box">
+        <span class="logo-icon">🏏</span>
+        <span class="logo-text">KHELO</span>
+      </div>
+      <h1>Welcome Back</h1>
+      <p>Enter your details to manage your matches</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="auth-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-wrapper">
+          <span class="material-icons">mail_outline</span>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="email" 
+            placeholder="name@example.com"
+            required
+            #emailInput="ngModel"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="label-row">
+          <label for="password">Password</label>
+          <a routerLink="/auth/forgot-password" class="forgot-link">Forgot password?</a>
+        </div>
+        <div class="input-wrapper">
+          <span class="material-icons">lock_outline</span>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            [(ngModel)]="password" 
+            placeholder="••••••••"
+            required
+            #passInput="ngModel"
+          />
+        </div>
+      </div>
+
+      @if (error()) {
+        <div class="error-alert">
+          <span class="material-icons">error_outline</span>
+          <p>{{ error() }}</p>
+        </div>
+      }
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="loading() || !loginForm.valid">
+        @if (loading()) {
+          <span class="spinner"></span>
+          Signing in...
+        } @else {
+          Sign In
+        }
+      </button>
+    </form>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <div id="google-login-btn" class="google-btn-container"></div>
+
+    <div class="auth-footer">
+      Don't have an account? <a routerLink="/auth/signup">Create an account</a>
+    </div>
+  </div>
+
+  <div class="auth-visual">
+    <div class="visual-content">
+      <h2>Transform Your Game</h2>
+      <p>The most advanced real-time cricket scoring platform for professionals and local leagues.</p>
+      <div class="stats-badge">
+        <span class="material-icons">trending_up</span>
+        <span>10k+ Active Matches</span>
+      </div>
+    </div>
+  </div>
+</div>

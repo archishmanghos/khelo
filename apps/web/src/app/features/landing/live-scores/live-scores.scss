@@ -1,0 +1,113 @@
+.live-scores {
+  padding: 80px 0;
+  background: var(--color-surface-container-low);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.title {
+  font-size: 32px;
+}
+
+.view-all {
+  color: var(--color-primary);
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.view-all:hover {
+  border-color: var(--color-primary);
+}
+
+.scroll-container {
+  display: flex;
+  gap: var(--spacing-lg);
+  overflow-x: auto;
+  padding-bottom: var(--spacing-lg);
+  scrollbar-width: thin;
+}
+
+.match-card {
+  min-width: 380px;
+  background: var(--color-surface-container-lowest);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-outline-variant);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.match-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface-variant);
+}
+
+.status.live {
+  background: var(--color-tertiary-container);
+  color: var(--color-on-tertiary-container);
+}
+
+.venue {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.teams {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.team {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.team-name {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.score {
+  font-family: var(--font-family-headline);
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 18px;
+}
+
+.summary {
+  font-size: 13px;
+  color: var(--color-on-surface-variant);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-outline-variant);
+}
+
+@media (max-width: 480px) {
+  .match-card {
+    min-width: 300px;
+  }
+}

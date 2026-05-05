@@ -1,0 +1,38 @@
+<header class="header">
+  <div class="container">
+    <div class="logo" routerLink="/">
+      <span class="logo-text">KHELO</span>
+    </div>
+
+    <nav class="nav">
+      <a routerLink="/" class="nav-link">Matches</a>
+      <a routerLink="/" class="nav-link">Tournaments</a>
+      <a routerLink="/" class="nav-link">Stats</a>
+    </nav>
+
+    <div class="actions">
+      <button (click)="toggleTheme()" class="icon-btn" [title]="'Toggle Theme'">
+        <span class="material-icons">
+          {{ themeService.theme() === 'light' ? 'dark_mode' : 'light_mode' }}
+        </span>
+      </button>
+
+      @if (authService.isAuthenticated()) {
+        <div class="user-menu">
+          <div class="user-info">
+            @if (authService.currentUser()?.avatarUrl) {
+              <img [src]="authService.currentUser()?.avatarUrl" class="avatar" alt="Avatar" />
+            } @else {
+              <div class="avatar initials">{{ getInitials(authService.currentUser()?.name || '') }}</div>
+            }
+            <span class="user-name">{{ authService.currentUser()?.name }}</span>
+          </div>
+          <button (click)="logout()" class="btn btn-outline-sm">Logout</button>
+        </div>
+      } @else {
+        <a routerLink="/auth/login" class="btn btn-secondary">Login</a>
+        <a routerLink="/auth/signup" class="btn btn-primary">Get Started</a>
+      }
+    </div>
+  </div>
+</header>

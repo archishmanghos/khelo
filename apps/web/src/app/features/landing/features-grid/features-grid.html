@@ -1,0 +1,20 @@
+<section class="features">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Built for the <span class="text-primary">Elite</span> Scorer</h2>
+      <p class="section-subtitle">Powerful tools that turn every match into a professional broadcast experience.</p>
+    </div>
+
+    <div class="grid">
+      @for (feature of features; track feature.title) {
+        <div class="feature-card">
+          <div class="feature-icon">
+            <span class="material-icons">{{ feature.icon }}</span>
+          </div>
+          <h3 class="feature-title">{{ feature.title }}</h3>
+          <p class="feature-text">{{ feature.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

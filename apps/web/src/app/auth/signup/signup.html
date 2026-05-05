@@ -1,0 +1,101 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="logo-box">
+        <span class="logo-icon">🏏</span>
+        <span class="logo-text">KHELO</span>
+      </div>
+      <h1>Create Account</h1>
+      <p>Join the future of real-time cricket scoring</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="auth-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <div class="input-wrapper">
+          <span class="material-icons">person_outline</span>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            [(ngModel)]="name" 
+            placeholder="John Doe"
+            required
+            #nameInput="ngModel"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-wrapper">
+          <span class="material-icons">mail_outline</span>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="email" 
+            placeholder="name@example.com"
+            required
+            #emailInput="ngModel"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <span class="material-icons">lock_outline</span>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            [(ngModel)]="password" 
+            placeholder="••••••••"
+            required
+            minlength="8"
+            #passInput="ngModel"
+          />
+        </div>
+        <p class="help-text">At least 8 characters</p>
+      </div>
+
+      @if (error()) {
+        <div class="error-alert">
+          <span class="material-icons">error_outline</span>
+          <p>{{ error() }}</p>
+        </div>
+      }
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="loading() || !signupForm.valid">
+        @if (loading()) {
+          <span class="spinner"></span>
+          Creating account...
+        } @else {
+          Create Account
+        }
+      </button>
+    </form>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <div id="google-signup-btn" class="google-btn-container"></div>
+
+    <div class="auth-footer">
+      Already have an account? <a routerLink="/auth/login">Sign in</a>
+    </div>
+  </div>
+
+  <div class="auth-visual">
+    <div class="visual-content">
+      <h2>Join the Elite</h2>
+      <p>Start scoring matches, tracking players, and building your cricket community today.</p>
+      <div class="stats-badge">
+        <span class="material-icons">groups</span>
+        <span>5k+ Clubs Joined</span>
+      </div>
+    </div>
+  </div>
+</div>
