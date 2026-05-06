@@ -1,0 +1,194 @@
+.create-match-container {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.page-header {
+  margin-bottom: 3rem;
+  
+  .btn-back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0;
+    transition: color 0.2s;
+
+    &:hover { color: var(--primary-color); }
+  }
+
+  .title-section {
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 0;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p { color: var(--text-secondary); margin: 0.5rem 0 0; }
+  }
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.form-section {
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-primary);
+
+    i { color: var(--primary-color); }
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+
+  .full-width { grid-column: span 2; }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  input, select {
+    padding: 0.8rem 1rem;
+    background: var(--surface-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+
+    &:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(234, 30, 99, 0.1);
+    }
+  }
+
+  .error { color: #ff1744; font-size: 0.75rem; margin-top: 0.25rem; }
+}
+
+.teams-grid {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  .team-input {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .team-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .team-avatar {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #2196f3, #00bcd4);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+
+      &.secondary {
+        background: linear-gradient(135deg, #ff9800, #ffc107);
+      }
+    }
+
+    h3 { font-size: 1.1rem; font-weight: 700; margin: 0; }
+  }
+
+  .vs-divider {
+    font-weight: 900;
+    color: var(--text-secondary);
+    opacity: 0.3;
+    font-size: 1.2rem;
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  margin-top: 1rem;
+
+  .btn-cancel {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.8rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover { background: var(--surface-secondary); }
+  }
+
+  .btn-submit {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 0.8rem 2.5rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(234, 30, 99, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(234, 30, 99, 0.4);
+    }
+
+    &:disabled { opacity: 0.7; cursor: not-allowed; }
+  }
+}
+
+@media (max-width: 600px) {
+  .form-grid { grid-template-columns: 1fr; .full-width { grid-column: span 1; } }
+  .teams-grid { flex-direction: column; gap: 3rem; .vs-divider { display: none; } }
+}

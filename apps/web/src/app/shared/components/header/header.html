@@ -1,11 +1,11 @@
 <header class="header">
   <div class="container">
     <div class="logo" routerLink="/">
-      <span class="logo-text">KHELO</span>
+      <span class="logo-text">Khelo</span>
     </div>
 
     <nav class="nav">
-      <a routerLink="/" class="nav-link">Matches</a>
+      <a routerLink="/matches" [routerLinkActiveOptions]="{exact: false}" routerLinkActive="active" class="nav-link">Matches</a>
       <a routerLink="/" class="nav-link">Tournaments</a>
       <a routerLink="/" class="nav-link">Stats</a>
     </nav>

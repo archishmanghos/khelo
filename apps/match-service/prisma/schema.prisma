@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Match {
+  id           String             @id @default(uuid())
+  sportType    SportType          @map("sport_type")
+  title        String?
+  status       MatchStatus        @default(scheduled)
+  createdBy    String             @map("created_by")
+  createdAt    DateTime           @default(now()) @map("created_at")
+  updatedAt    DateTime           @updatedAt @map("updated_at")
+  startTime    DateTime?          @map("start_time")
+  endTime      DateTime?          @map("end_time")
+  metadata     Json?              @map("metadata")
+  innings      CricketInnings[]
+  cricketData  CricketMatch?
+  participants MatchParticipant[]
+
+  @@map("matches")
+}
+
+model MatchParticipant {
+  id              String          @id @default(uuid())
+  matchId         String          @map("match_id")
+  participantType ParticipantType @map("participant_type")
+  participantId   String          @map("participant_id")
+  role            String?
+  match           Match           @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  @@map("match_participants")
+}
+
+model Team {
+  id        String       @id @default(uuid())
+  name      String
+  createdBy String       @map("created_by")
+  createdAt DateTime     @default(now()) @map("created_at")
+  players   TeamPlayer[]
+
+  @@map("teams")
+}
+
+model TeamPlayer {
+  id     String @id @default(uuid())
+  teamId String @map("team_id")
+  userId String @map("user_id")
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@map("team_players")
+}
+
+model CricketMatch {
+  matchId          String        @id @map("match_id")
+  format           CricketFormat
+  totalOvers       Int           @map("total_overs")
+  currentInnings   Int           @default(1) @map("current_innings")
+  tossWinnerTeamId String?       @map("toss_winner_team_id")
+  tossDecision     String?       @map("toss_decision")
+  match            Match         @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  @@map("cricket_matches")
+}
+
+model CricketInnings {
+  id            String        @id @default(uuid())
+  matchId       String        @map("match_id")
+  inningsNumber Int           @map("innings_number")
+  battingTeamId String        @map("batting_team_id")
+  bowlingTeamId String        @map("bowling_team_id")
+  totalRuns     Int           @default(0) @map("total_runs")
+  wickets       Int           @default(0) @map("wickets")
+  overs         Float         @default(0.0)
+  status        InningsStatus @default(in_progress)
+  match         Match         @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  @@map("cricket_innings")
+}
+
+enum SportType {
+  cricket
+  football
+  table_tennis
+}
+
+enum MatchStatus {
+  scheduled
+  live
+  completed
+  cancelled
+}
+
+enum ParticipantType {
+  team
+  player
+}
+
+enum CricketFormat {
+  t20
+  odi
+  test
+}
+
+enum InningsStatus {
+  in_progress
+  completed
+}

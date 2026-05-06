@@ -1,0 +1,148 @@
+<app-header></app-header>
+<div class="matches-container">
+  <header class="match-center-header">
+    <div class="breadcrumb">MATCH CENTER</div>
+    <div class="header-top">
+      <h1>All Fixtures</h1>
+      
+      <div class="header-actions">
+        <div class="search-box">
+          <i class="material-icons">search</i>
+          <input type="text" placeholder="Search series or teams..." (input)="onSearch($event)">
+        </div>
+
+        <div class="filter-tabs">
+          <button class="tab" [class.active]="filters().format === ''" (click)="setFormat('')">All</button>
+          <button class="tab" [class.active]="filters().format === 't20'" (click)="setFormat('t20')">T20</button>
+          <button class="tab" [class.active]="filters().format === 'odi'" (click)="setFormat('odi')">ODI</button>
+          <button class="tab" [class.active]="filters().format === 'test'" (click)="setFormat('test')">Test</button>
+        </div>
+
+        <app-date-range-picker 
+          [label]="selectedDateRangeLabel()"
+          (dateChange)="onDateRangeChange($event)"
+          maxDate="today">
+        </app-date-range-picker>
+      </div>
+    </div>
+  </header>
+
+  <main class="match-sections">
+    <!-- Live Now -->
+    <section class="section">
+      <h2 class="section-title"><span class="dot live"></span> Live Now</h2>
+      <div class="live-cards">
+        @for (match of matches(); track match.id) {
+          @if (match.status === 'live') {
+            <div class="live-card">
+              <div class="card-header">
+                <span class="match-info">Indian Premier League 2024 • Wankhede Stadium, Mumbai</span>
+                <span class="live-status">LIVE • 1ST INNINGS</span>
+              </div>
+              <div class="card-body">
+                <div class="team">
+                  <img src="assets/teams/mi.png" alt="MI" class="team-logo">
+                  <span class="team-code">MI</span>
+                </div>
+                <div class="score-container">
+                  <div class="score">184/4</div>
+                  <div class="overs">(16.2 Ov)</div>
+                </div>
+                <div class="team">
+                  <img src="assets/teams/csk.png" alt="CSK" class="team-logo">
+                  <span class="team-code">CSK</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="player-stats">
+                  <div class="stat">
+                    <span class="label">BATTER</span>
+                    <span class="value">Rohit Sharma* 84 (42)</span>
+                  </div>
+                  <div class="stat">
+                    <span class="label">BOWLER</span>
+                    <span class="value">Ravindra Jadeja 1/24</span>
+                  </div>
+                </div>
+                <button class="btn-match-center">Match Center</button>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <!-- Upcoming Matches -->
+    <section class="section">
+      <h2 class="section-title">Upcoming Matches</h2>
+      <div class="upcoming-grid">
+        @for (match of matches(); track match.id) {
+          @if (match.status === 'scheduled') {
+            <div class="upcoming-card">
+              <div class="card-top">
+                <span class="tag">TOMORROW</span>
+                <span class="time">15:30 IST</span>
+              </div>
+              <div class="teams">
+                <div class="team">
+                  <img src="assets/teams/gt.png" alt="GT" class="team-logo">
+                  <span class="team-code">GT</span>
+                </div>
+                <span class="vs">vs</span>
+                <div class="team">
+                  <span class="team-code">RCB</span>
+                  <img src="assets/teams/rcb.png" alt="RCB" class="team-logo">
+                </div>
+              </div>
+              <div class="venue">Narendra Modi Stadium, Ahmedabad</div>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <!-- Recent Results -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Recent Results</h2>
+        <a href="#" class="view-archive">View Archive</a>
+      </div>
+      
+      <div class="results-table-container">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>DATE</th>
+              <th>MATCH DETAILS</th>
+              <th>SCORE</th>
+              <th>RESULT</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (match of matches(); track match.id) {
+              @if (match.status === 'completed') {
+                <tr>
+                  <td>
+                    <div class="date">May 10</div>
+                    <div class="status">Finished</div>
+                  </td>
+                  <td>
+                    <div class="series">IPL 2024 • Match 52</div>
+                    <div class="match-name">Kolkata Knight Riders vs Punjab Kings</div>
+                  </td>
+                  <td>
+                    <div class="score">KKR: 181/6 (20)</div>
+                    <div class="score">PBKS: 179/8 (20)</div>
+                  </td>
+                  <td>
+                    <span class="result-badge win">KKR won by 2 runs</span>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>

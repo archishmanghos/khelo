@@ -14,15 +14,17 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@khelo/types": "*",
-    "@khelo/logger": "*",
-    "@khelo/utils": "*",
     "@khelo/event-bus": "*",
+    "@khelo/logger": "*",
+    "@khelo/types": "*",
+    "@khelo/utils": "*",
+    "@prisma/client": "^5.22.0",
+    "compression": "^1.7.5",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "helmet": "^8.0.0",
-    "compression": "^1.7.5"
+    "prisma": "^5.22.0"
   },
   "devDependencies": {
     "@khelo/config": "*",

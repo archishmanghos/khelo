@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { matchService } from '../services/match.service';
-import type { ApiResponse, Match, HealthCheckResponse } from '@khelo/types';
+import type { ApiResponse, HealthCheckResponse } from '@khelo/types';
 import { nowISO } from '@khelo/utils';
 import { config } from '../config';
 
@@ -15,74 +15,118 @@ export const matchController = {
     });
   },
 
-  getAll(_req: Request, res: Response<ApiResponse<Match[]>>) {
-    const matches = matchService.getAll();
-    res.json({
-      success: true,
-      data: matches,
-      timestamp: nowISO(),
-    });
-  },
-
-  getById(req: Request, res: Response<ApiResponse<Match>>) {
-    const match = matchService.getById(req.params.id as string);
-    if (!match) {
-      res.status(404).json({
-        success: false,
-        error: 'Match not found',
+  async getAll(req: Request, res: Response<ApiResponse<any>>) {
+    try {
+      const { sportType, format, status, startDate, endDate, skip, take } = req.query;
+      const result = await matchService.getAll({
+        sportType,
+        format,
+        status,
+        startDate,
+        endDate,
+        skip: skip ? parseInt(skip as string) : undefined,
+        take: take ? parseInt(take as string) : undefined,
+      });
+      res.json({
+        success: true,
+        data: result.items,
+        meta: {
+          total: result.total,
+        },
         timestamp: nowISO(),
       });
-      return;
-    }
-    res.json({
-      success: true,
-      data: match,
-      timestamp: nowISO(),
-    });
-  },
-
-  create(req: Request, res: Response<ApiResponse<Match>>) {
-    const match = matchService.create(req.body);
-    res.status(201).json({
-      success: true,
-      data: match,
-      message: 'Match created successfully',
-      timestamp: nowISO(),
-    });
-  },
-
-  update(req: Request, res: Response<ApiResponse<Match>>) {
-    const match = matchService.update(req.params.id as string, req.body);
-    if (!match) {
-      res.status(404).json({
+    } catch (error: any) {
+      res.status(500).json({
         success: false,
-        error: 'Match not found',
+        error: error.message,
         timestamp: nowISO(),
       });
-      return;
     }
-    res.json({
-      success: true,
-      data: match,
-      timestamp: nowISO(),
-    });
   },
 
-  start(req: Request, res: Response<ApiResponse<Match>>) {
-    const match = matchService.startMatch(req.params.id as string);
-    if (!match) {
-      res.status(404).json({
-        success: false,
-        error: 'Match not found',
+  async getById(req: Request, res: Response<ApiResponse<any>>) {
+    try {
+      const match = await matchService.getById(req.params.id as string);
+      if (!match) {
+        res.status(404).json({
+          success: false,
+          error: 'Match not found',
+          timestamp: nowISO(),
+        });
+        return;
+      }
+      res.json({
+        success: true,
+        data: match,
         timestamp: nowISO(),
       });
-      return;
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+        timestamp: nowISO(),
+      });
     }
-    res.json({
-      success: true,
-      data: match,
-      message: 'Match started',
-      timestamp: nowISO(),
-    });
+  },
+
+  async create(req: Request, res: Response<ApiResponse<any>>) {
+    try {
+      const match = await matchService.create(req.body);
+      res.status(201).json({
+        success: true,
+        data: match,
+        message: 'Match created successfully',
+        timestamp: nowISO(),
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+        timestamp: nowISO(),
+      });
+    }
+  },
+
+  async update(req: Request, res: Response<ApiResponse<any>>) {
+    try {
+      const match = await matchService.update(req.params.id as string, req.body);
+      res.json({
+        success: true,
+        data: match,
+        timestamp: nowISO(),
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+        timestamp: nowISO(),
+      });
+    }
+  },
+
+  async start(req: Request, res: Response<ApiResponse<any>>) {
+    try {
+      const match = await matchService.startMatch(req.params.id as string);
+      if (!match) {
+        res.status(404).json({
+          success: false,
+          error: 'Match not found',
+          timestamp: nowISO(),
+        });
+        return;
+      }
+      res.json({
+        success: true,
+        data: match,
+        message: 'Match started',
+        timestamp: nowISO(),
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+        timestamp: nowISO(),
+      });
+    }
   },
 };

@@ -1,0 +1,97 @@
+<app-header></app-header>
+<div class="create-match-container">
+  <header class="page-header">
+    <button (click)="goBack()" class="btn-back">
+      <i class="material-icons">arrow_back</i>
+      Back
+    </button>
+    <div class="title-section">
+      <h1>Initialize Match</h1>
+      <p>Configure the pulse of your next game</p>
+    </div>
+  </header>
+
+  <form (ngSubmit)="onSubmit()" #matchForm="ngForm" class="create-form">
+    <div class="form-section">
+      <h2 class="section-title"><i class="material-icons">info</i> Core Details</h2>
+      
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Match Title</label>
+          <input 
+            type="text" 
+            [(ngModel)]="formData.title" 
+            name="title" 
+            placeholder="e.g. Weekend Warriors T20"
+            required
+            #title="ngModel"
+          >
+          @if (title.invalid && title.touched) {
+            <span class="error">Title is required</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Match Format</label>
+          <select [(ngModel)]="formData.format" name="format">
+            <option value="t20">T20</option>
+            <option value="odi">ODI</option>
+            <option value="test">Test</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Total Overs</label>
+          <input type="number" [(ngModel)]="formData.totalOvers" name="totalOvers" min="1" max="50">
+        </div>
+
+        <div class="form-group full-width">
+          <label>Start Time</label>
+          <input type="datetime-local" [(ngModel)]="formData.startTime" name="startTime" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2 class="section-title"><i class="material-icons">groups</i> Squads</h2>
+      
+      <div class="teams-grid">
+        <div class="team-input">
+          <div class="team-header">
+            <div class="team-avatar">A</div>
+            <h3>Team A</h3>
+          </div>
+          <div class="form-group">
+            <label>Team Name</label>
+            <input type="text" [(ngModel)]="formData.teamA.name" name="teamAName" placeholder="Enter Team A Name">
+          </div>
+        </div>
+
+        <div class="vs-divider">VS</div>
+
+        <div class="team-input">
+          <div class="team-header">
+            <div class="team-avatar secondary">B</div>
+            <h3>Team B</h3>
+          </div>
+          <div class="form-group">
+            <label>Team Name</label>
+            <input type="text" [(ngModel)]="formData.teamB.name" name="teamBName" placeholder="Enter Team B Name">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="goBack()" class="btn-cancel">Cancel</button>
+      <button type="submit" [disabled]="matchForm.invalid || submitting()" class="btn-submit">
+        @if (submitting()) {
+          <div class="spinner-small"></div>
+          Creating...
+        } @else {
+          Create Match
+        }
+      </button>
+    </div>
+  </form>
+</div>

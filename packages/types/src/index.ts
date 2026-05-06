@@ -19,6 +19,7 @@ export interface PaginatedResponse<T> {
 export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
+  meta?: any;
   error?: string;
   message?: string;
   timestamp: Timestamp;
