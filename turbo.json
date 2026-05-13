@@ -34,6 +34,17 @@
     },
     "clean": {
       "cache": false
+    },
+    "prisma:generate": {
+      "inputs": ["prisma/schema.prisma"],
+      "cache": true
+    },
+    "prisma:migrate": {
+      "cache": false,
+      "interactive": true
+    },
+    "prisma:deploy": {
+      "cache": false
     }
   }
 }

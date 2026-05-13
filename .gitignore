@@ -44,3 +44,6 @@ npm-debug.log*
 # Misc
 tmp/
 temp/
+
+# Prisma
+**/prisma/client

@@ -16,7 +16,11 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,css,scss,html}\"",
     "test": "turbo run test",
     "clean": "turbo run clean && rm -rf node_modules",
-    "prepare": "husky"
+    "prepare": "husky",
+    "infra:up": "docker compose -f infrastructure/docker/docker-compose.dev.yml up -d",
+    "infra:down": "docker compose -f infrastructure/docker/docker-compose.dev.yml down",
+    "db:setup": "npm run infra:up && turbo run prisma:generate prisma:deploy --filter=@khelo/*-service",
+    "db:migrate": "turbo run prisma:migrate --filter=@khelo/*-service"
   },
   "devDependencies": {
     "husky": "^9.1.7",

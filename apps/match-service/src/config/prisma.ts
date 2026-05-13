@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../prisma/client';
 import { createLogger } from '@khelo/logger';
 
 const logger = createLogger({ service: 'match-service' });
@@ -17,4 +17,4 @@ export const prisma = new PrismaClient({
 
 prisma.$connect()
   .then(() => logger.info('Connected to PostgreSQL via Prisma'))
-  .catch((err) => logger.error('Failed to connect to PostgreSQL', { error: err }));
+  .catch((err: any) => logger.error('Failed to connect to PostgreSQL', { error: err }));

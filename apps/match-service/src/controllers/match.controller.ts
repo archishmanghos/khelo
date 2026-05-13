@@ -71,7 +71,21 @@ export const matchController = {
 
   async create(req: Request, res: Response<ApiResponse<any>>) {
     try {
-      const match = await matchService.create(req.body);
+      const userId = req.user?.id;
+      if (!userId) {
+        res.status(401).json({
+          success: false,
+          error: 'Unauthorized: User ID not found in token',
+          timestamp: nowISO(),
+        });
+        return;
+      }
+
+      const match = await matchService.create({
+        ...req.body,
+        createdBy: userId,
+      });
+
       res.status(201).json({
         success: true,
         data: match,
