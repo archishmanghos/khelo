@@ -1,6 +1,6 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap, catchError, of, Observable } from 'rxjs';
+import { tap, catchError, of, Observable, shareReplay } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface User {
@@ -25,6 +25,7 @@ export interface AuthResponse {
 export class AuthService {
   private http = inject(HttpClient);
   private readonly API_URL = `${environment.apiUrl}/auth`;
+  private refreshSubject: Observable<AuthResponse> | null = null;
 
   private accessToken: string | null = localStorage.getItem('accessToken');
 
@@ -59,20 +60,31 @@ export class AuthService {
   }
 
   refresh(): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.API_URL}/refresh`, {}).pipe(
-      tap((res) => this.handleAuthSuccess(res)),
+    if (this.refreshSubject) {
+      return this.refreshSubject;
+    }
+
+    this.refreshSubject = this.http.post<AuthResponse>(`${this.API_URL}/refresh`, {}).pipe(
+      tap((res) => {
+        this.handleAuthSuccess(res);
+        this.refreshSubject = null;
+      }),
       catchError((err) => {
-        this.handleAuthLogout();
+        this.purgeSession();
+        this.refreshSubject = null;
         throw err;
       }),
+      shareReplay(1)
     );
+
+    return this.refreshSubject;
   }
 
   logout() {
     return this.http.post(`${this.API_URL}/logout`, {}).pipe(
-      tap(() => this.handleAuthLogout()),
+      tap(() => this.purgeSession()),
       catchError(() => {
-        this.handleAuthLogout();
+        this.purgeSession();
         return of(null);
       }),
     );
@@ -85,7 +97,7 @@ export class AuthService {
     this.isAuthenticated.set(true);
   }
 
-  private handleAuthLogout() {
+  purgeSession() {
     this.accessToken = null;
     localStorage.removeItem('accessToken');
     this.currentUser.set(null);
@@ -103,7 +115,7 @@ export class AuthService {
         },
         error: (err) => {
           console.log('AuthService: Session recovery failed', err);
-          this.handleAuthLogout();
+          this.purgeSession();
           this.isInitialLoading.set(false);
         }
       });
@@ -128,7 +140,7 @@ export class AuthService {
           },
           error: (refreshErr) => {
             console.log('AuthService: Final session recovery failed', refreshErr);
-            this.handleAuthLogout();
+            this.purgeSession();
             this.isInitialLoading.set(false);
           },
         });
